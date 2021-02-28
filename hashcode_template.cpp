@@ -45,9 +45,9 @@ using namespace std;
 #define MAX_VAL_OF(_x) std::numeric_limits<decltype(_x)>::max()
 #define v_int vector<int>
 
-int sum(vector<int> v) { int total = 0; fi(v.size()) total += v[i]; return total; }
-float mean(vector<int> v) { return sum(v) / v.size(); }
-float standardDeviation(vector<int> v) { float mu = mean(v); float s = 0; fi(v.size()) s += pow(v[i] - mu, 2); return sqrt(s / v.size()); }
+int sum(vector<int>& v) { int total = 0; fi(v.size()) total += v[i]; return total; }
+float mean(vector<int>& v) { return sum(v) / v.size(); }
+float standardDeviation(vector<int>& v) { float mu = mean(v); float s = 0; fi(v.size()) s += pow(v[i] - mu, 2); return sqrt(s / v.size()); }
 void reverseStringIntMap(map<string, int>& input_map, map<int, string>& output_map) { for (map<string, int>::iterator it = input_map.begin(); it != input_map.end(); it++) output_map.insert({it->second, it->first}); }
 
 // Implement write function

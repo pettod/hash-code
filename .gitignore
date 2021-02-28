@@ -1,0 +1,9 @@
+# Ignore binary files
+*
+!*.*
+!*/
+
+*.txt
+*.out
+*.in
+*.json
