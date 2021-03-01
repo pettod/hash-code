@@ -2,12 +2,21 @@ from os import listdir
 from os.path import isfile, join
 import numpy as np
 import matplotlib.pyplot as plt
+from math import sqrt, ceil
 
 
-
-def plotData(datas, titles, grid_x, grid_y):
+def plotData(datas, titles):
     x_labels = [chr(97+i) for i in range(len(datas[0]))]
-    for i in range(grid_x * grid_y):
+    grid_x = int(sqrt(len(datas)))
+    grid_y = ceil(len(datas) / grid_x)
+    plt.subplots_adjust(
+        left=0.05,
+        bottom=0.05,
+        right=0.95,
+        top=0.95,
+        wspace=None,
+        hspace=0.4)
+    for i in range(len(datas)):
         data = len(datas[0]) * [0]
         title = ""
         if i < len(datas):
@@ -20,7 +29,7 @@ def plotData(datas, titles, grid_x, grid_y):
     plt.show()
 
 
-def createData(txt_files):
+def createGroupedData(txt_files):
     datas = [ extractFile(txt_file) for txt_file in txt_files ]
     grouped_data = []
     for i in range(len(datas[0])):
@@ -29,6 +38,7 @@ def createData(txt_files):
     return grouped_data
 
 
+# Read data and return list of integers of the analyzed data
 def extractFile(file_name):
     street_name_time = {}
     max_score = 0
@@ -65,17 +75,21 @@ def extractFile(file_name):
     ]
 
 
+# Define titles
+def getData(txt_files):
+    datas = createGroupedData(txt_files)
+    titles = [
+        "Max score = {:,}".format(sum(datas[0])),
+    ]
+    return datas, titles
+
+
 def main():
     root = "input_files"
     txt_files = sorted([
         join(root, f) for f in listdir(root) if isfile(join(root, f))])
-    grid_x = 3
-    grid_y = 3
-    datas = createData(txt_files)
-    titles = [
-        "Max score = {:,}".format(sum(datas[0])),
-    ]
-    plotData(datas, titles, grid_x, grid_y)
+    datas, titles = getData(txt_files)
+    plotData(datas, titles)
 
 
 main()
