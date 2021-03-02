@@ -38,7 +38,6 @@ def createGroupedData(txt_files):
     return grouped_data
 
 
-# Read data and return list of integers of the analyzed data
 def extractFile(file_name):
     street_name_time = {}
     max_score = 0
@@ -75,7 +74,6 @@ def extractFile(file_name):
     ]
 
 
-# Define titles
 def getData(txt_files):
     datas = createGroupedData(txt_files)
     titles = [
