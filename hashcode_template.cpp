@@ -49,48 +49,52 @@ int sum(vector<int>& v) { int total = 0; fi(v.size()) total += v[i]; return tota
 float mean(vector<int>& v) { return sum(v) / v.size(); }
 float standardDeviation(vector<int>& v) { float mu = mean(v); float s = 0; fi(v.size()) s += pow(v[i] - mu, 2); return sqrt(s / v.size()); }
 void reverseStringIntMap(map<string, int>& input_map, map<int, string>& output_map) { for (map<string, int>::iterator it = input_map.begin(); it != input_map.end(); it++) output_map.insert({it->second, it->first}); }
+int stringIdInMap(map<string, int> &map_, string &str_) { map<string, int>::iterator it = map_.find(str_); if (it != map_.end()) { map_.insert({str_, map_.size()}); } else { return it->second; } return map_.size() - 1; }
 
-// Implement write function
-void writeFile(string file_name)
-{
-    ofstream file;
-    file.open(file_name);
-    file << solution.size() << "\n";
-    fi(solution.size())
-    {
-        file << solution[i].first << "\n";
-        file << solution[i].second.size() << "\n";
-        fj(solution[i].second.size())
-            file << solution[i].second[j].first << " " << solution[i].second[j].second << "\n";
-    }
-    file.close();
-}
 
-// Add here all data structures when reading the file
-vector<pair<int, vector<pair<string, int>>>> solution;
+class Problem {
+    public:
+        // Implement write function
+        void writeFile(string file_name)
+        {
+            ofstream file;
+            file.open(file_name);
+            file << solution.size() << "\n";
+            fi(solution.size())
+            {
+                fj(solution[i].size())
+                    file << solution[i][j] << " ";
+                file << "\n";
+            }
+            file.close();
+        }
 
-// Read file to data structures
-void readFile(string file_name)
-{
-    fstream file;
-    file.open(file_name, ios::in);
-    int a, b, c;
-    file >> a >> b >> c;
+        // Read file to data structures
+        void readFile(string file_name)
+        {
+            fstream file;
+            file.open(file_name, ios::in);
+            int a, b, c;
+            file >> a >> b >> c;
 
-    // read here
-    // Comparator example: [](auto& i, auto& j) { return i > j; }
+            // read here
+            // Comparator example: [](auto& i, auto& j) { return i > j; }
+            file.close();
+        }
 
-    file.close();
-}
+        // Create solution vector
+        void solve()
+        {
+        }
+    private:
+        // Add here all data structures when reading the file
+        vector<vector<int>> solution;
+};
 
-// Create solution vector
-void solve()
-{
-}
 
-// Change file names
 int main()
 {
+    // Change file names
     vector<string> in_files = {
         "input_files/a.txt",
         "input_files/b.txt",
@@ -109,8 +113,9 @@ int main()
     };
     fi(in_files.size())
     {
-        readFile(in_files[i]);
-        solve();
-        writeFile(out_files[i]);
+        Problem p;
+        p.readFile(in_files[i]);
+        p.solve();
+        p.writeFile(out_files[i]);
     }
 }
