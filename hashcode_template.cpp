@@ -41,6 +41,7 @@ using namespace std;
 #define break(_x)    {_x;break;}
 #define continue(_x) {_x;continue;}
 #define _sort(_x)    sort(_x.begin(), _x.end())
+#define _shuffle(_x) random_shuffle(_x.begin(), _x.end())
 #define r_sort(_x)   sort(_x.rbegin(), _x.rend())
 #define MAX_VAL_OF(_x) std::numeric_limits<decltype(_x)>::max()
 #define v_int vector<int>
@@ -52,50 +53,68 @@ void reverseStringIntMap(map<string, int>& input_map, map<int, string>& output_m
 int stringIdInMap(map<string, int> &map_, string &str_) { map<string, int>::iterator it = map_.find(str_); if (it != map_.end()) { map_.insert({str_, map_.size()}); } else { return it->second; } return map_.size() - 1; }
 
 
+// Data element
+struct Element {
+    v_int tags;
+    int orientation;
+    int id;
+};
+
+
 class Problem {
     public:
-        // Implement write function
-        void writeFile(string file_name)
+        // Write solution to file
+        void writeFile(ofstream &file)
         {
-            ofstream file;
-            file.open(file_name);
             file << solution.size() << "\n";
             fi(solution.size())
             {
                 fj(solution[i].size())
-                    file << solution[i][j] << " ";
+                    file << solution[i][j].id << " ";
                 file << "\n";
             }
-            file.close();
         }
 
         // Read file to data structures
-        void readFile(string file_name)
+        void readFile(fstream &file)
         {
-            fstream file;
-            file.open(file_name, ios::in);
-            int a, b, c;
-            file >> a >> b >> c;
+            int num_images; file >> num_images;
+            fi(num_images)
+            {
+                Element e; string orientation, tag; int num_tags;
 
-            // read here
-            // Comparator example: [](auto& i, auto& j) { return i > j; }
-            file.close();
+                file >> orientation >> num_tags;
+                if (orientation == "H") { e.orientation = 0; } else { e.orientation = 1; }
+                e.id = i;
+                fj(num_tags)
+                {
+                    file >> tag;
+                    e.tags.push_back(stringIdInMap(tags_to_id, tag));
+                }
+                data.push_back(e);
+            }
         }
 
         // Create solution vector
         void solve()
         {
+            // Comparator example: [](auto& i, auto& j) { return i > j; }
+            fi(data.size())
+                solution.push_back({data[i]});
+            _shuffle(solution);
         }
     private:
-        // Add here all data structures when reading the file
-        vector<vector<int>> solution;
+        // Add data structures
+        map<string, int> tags_to_id;
+        vector<Element> data;
+        vector<vector<Element>> solution;
 };
 
 
 int main()
 {
-    // Change file names
-    vector<string> in_files = {
+    // Change input and output file names
+    vector<string> in_file_names = {
         "input_files/a.txt",
         "input_files/b.txt",
         "input_files/c.txt",
@@ -103,7 +122,7 @@ int main()
         "input_files/e.txt",
         "input_files/f.txt",
     };
-    vector<string> out_files = {
+    vector<string> out_file_names = {
         "a_solution.txt",
         "b_solution.txt",
         "c_solution.txt",
@@ -111,11 +130,21 @@ int main()
         "e_solution.txt",
         "f_solution.txt",
     };
-    fi(in_files.size())
+    fi(in_file_names.size())
     {
         Problem p;
-        p.readFile(in_files[i]);
+
+        // 1. Read
+        fstream in_file; in_file.open(in_file_names[i], ios::in);
+        p.readFile(in_file);
+        in_file.close();
+
+        // 2. Solve
         p.solve();
-        p.writeFile(out_files[i]);
+
+        // 3. Write
+        ofstream out_file; out_file.open(out_file_names[i]);
+        p.writeFile(out_file);
+        out_file.close();
     }
 }
