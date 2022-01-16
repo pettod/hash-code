@@ -66,11 +66,11 @@ class Problem {
         // Write solution to file
         void writeFile(ofstream &file)
         {
-            file << solution.size() << "\n";
-            fi(solution.size())
+            file << solution_.size() << "\n";
+            fi(solution_.size())
             {
-                fj(solution[i].size())
-                    file << solution[i][j].id << " ";
+                fj(solution_[i].size())
+                    file << solution_[i][j].id << " ";
                 file << "\n";
             }
         }
@@ -89,25 +89,27 @@ class Problem {
                 fj(num_tags)
                 {
                     file >> tag;
-                    e.tags.push_back(stringIdInMap(tags_to_id, tag));
+                    e.tags.push_back(stringIdInMap(tags_to_id_, tag));
                 }
-                data.push_back(e);
+                data_.push_back(e);
             }
+            reverseStringIntMap(tags_to_id_, id_to_tag_);
         }
 
         // Create solution vector
         void solve()
         {
             // Comparator example: [](auto& i, auto& j) { return i > j; }
-            fi(data.size())
-                solution.push_back({data[i]});
-            _shuffle(solution);
+            fi(data_.size())
+                solution_.push_back({data_[i]});
+            _shuffle(solution_);
         }
     private:
         // Add data structures
-        map<string, int> tags_to_id;
-        vector<Element> data;
-        vector<vector<Element>> solution;
+        map<string, int> tags_to_id_;
+        map<int, string> id_to_tag_;
+        vector<Element> data_;
+        vector<vector<Element>> solution_;
 };
 
 
