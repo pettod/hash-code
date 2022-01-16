@@ -29,6 +29,7 @@
 #include <cstdio>
 #include <stdlib.h>
 #include <stdio.h>
+#include <filesystem>
 
 using namespace std;
 #define fi(n) for (int i = 0; i < int (n); i++)
@@ -115,29 +116,28 @@ class Problem {
 
 int main()
 {
-    // Change input and output file names
-    vector<string> in_file_names = {
-        "input_files/a.txt",
-        "input_files/b.txt",
-        "input_files/c.txt",
-        "input_files/d.txt",
-        "input_files/e.txt",
-        "input_files/f.txt",
-    };
-    vector<string> out_file_names = {
-        "a_solution.txt",
-        "b_solution.txt",
-        "c_solution.txt",
-        "d_solution.txt",
-        "e_solution.txt",
-        "f_solution.txt",
-    };
-    fi(in_file_names.size())
+    // Change input file directory
+    string input_directory_path = "input_data";
+
+    // Read and sort input file names
+    set<string> input_file_paths;
+    f1(filesystem::directory_iterator(input_directory_path))
+        input_file_paths.insert(i1.path());
+
+    f1(input_file_paths)
     {
+        // In and out paths
+        string in_path = i1;
+        string in_basename = in_path.substr(in_path.find_last_of("/\\") + 1);
+        stringstream ss;
+        ss << in_basename[0] << "_solution.txt";
+        string out_path = ss.str();
+
+        cout << "\n" << in_basename << endl;
         Problem p;
 
         // 1. Read
-        fstream in_file; in_file.open(in_file_names[i], ios::in);
+        fstream in_file; in_file.open(in_path, ios::in);
         p.readFile(in_file);
         in_file.close();
 
@@ -145,7 +145,7 @@ int main()
         p.solve();
 
         // 3. Write
-        ofstream out_file; out_file.open(out_file_names[i]);
+        ofstream out_file; out_file.open(out_path);
         p.writeFile(out_file);
         out_file.close();
     }
