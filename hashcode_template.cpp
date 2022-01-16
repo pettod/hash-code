@@ -50,7 +50,7 @@ int sum(vector<int>& v) { int total = 0; fi(v.size()) total += v[i]; return tota
 float mean(vector<int>& v) { return sum(v) / v.size(); }
 float standardDeviation(vector<int>& v) { float mu = mean(v); float s = 0; fi(v.size()) s += pow(v[i] - mu, 2); return sqrt(s / v.size()); }
 void reverseStringIntMap(map<string, int>& input_map, map<int, string>& output_map) { for (map<string, int>::iterator it = input_map.begin(); it != input_map.end(); it++) output_map.insert({it->second, it->first}); }
-int stringIdInMap(map<string, int> &map_, string &str_) { map<string, int>::iterator it = map_.find(str_); if (it != map_.end()) { map_.insert({str_, map_.size()}); } else { return it->second; } return map_.size() - 1; }
+int stringIdInMap(map<string, int> &map_, string &str_) { map<string, int>::iterator it = map_.find(str_); if (it == map_.end()) { map_.insert({str_, map_.size()}); } else { return it->second; } return map_.size() - 1; }
 
 
 // Data element
