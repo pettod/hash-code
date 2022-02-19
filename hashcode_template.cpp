@@ -47,11 +47,15 @@ using namespace std;
 #define MAX_VAL_OF(_x) std::numeric_limits<decltype(_x)>::max()
 #define v_int vector<int>
 
-int sum(vector<int>& v) { int total = 0; fi(v.size()) total += v[i]; return total; }
+int argmax(v_int v) { v_int::iterator max = max_element(all(v)); return distance(v.begin(), max); }
+bool elementIn(int e, v_int v) { f1(v) { if(e == i1) return true; } return false; }
 float mean(vector<int>& v) { return sum(v) / v.size(); }
-float standardDeviation(vector<int>& v) { float mu = mean(v); float s = 0; fi(v.size()) s += pow(v[i] - mu, 2); return sqrt(s / v.size()); }
+int sum(vector<int>& v) { int total = 0; fi(v.size()) total += v[i]; return total; }
 void reverseStringIntMap(map<string, int>& input_map, map<int, string>& output_map) { for (map<string, int>::iterator it = input_map.begin(); it != input_map.end(); it++) output_map.insert({it->second, it->first}); }
+int randint(int start, int end) { std::random_device rd; std::mt19937 gen(rd()); std::uniform_int_distribution<> distr(start, end); return distr(gen); }
+v_int nDifferentRandints(int n, int start, int end) { v_int v1; int d = end - start; if (n > d) n = d+1; fi(d+1) v1.push_back(i + start); _shuffle(v1); v_int v2; fi(n) v2.push_back(v1[i]); _sort(v2); return v2; }
 int stringIdInMap(map<string, int> &map_, string &str_) { map<string, int>::iterator it = map_.find(str_); if (it == map_.end()) { map_.insert({str_, map_.size()}); } else { return it->second; } return map_.size() - 1; }
+float standardDeviation(vector<int>& v) { float mu = mean(v); float s = 0; fi(v.size()) s += pow(v[i] - mu, 2); return sqrt(s / v.size()); }
 
 
 // Data element
@@ -105,6 +109,7 @@ class Problem {
                 solution_.push_back({data_[i]});
             _shuffle(solution_);
         }
+
     private:
         // Add data structures
         map<string, int> tags_to_id_;
@@ -149,4 +154,5 @@ int main()
         p.writeFile(out_file);
         out_file.close();
     }
+    return 1;
 }
